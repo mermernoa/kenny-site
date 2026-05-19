@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil — Kenny Racing®</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0a0a0a;--white:#ffffff;--red:#ccff00;--red-dark:#a8d900;--gray:#f4f4f2;--gray-mid:#888;--gray-dark:#333;--nav-h:64px}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:var(--white);color:var(--black);overflow-x:hidden}
+.topbar{background:var(--black);color:var(--white);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:7px 24px;display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:var(--white);text-decoration:none;opacity:.75;transition:opacity .2s}
+.topbar a:hover{opacity:1}
+.topbar-links{display:flex;gap:24px}
+.topbar-lang{display:flex;gap:12px;align-items:center}
+.topbar-lang a{opacity:.5}.topbar-lang a.active{opacity:1;font-weight:700}
+nav{position:sticky;top:0;z-index:1000;background:var(--white);border-bottom:1px solid #e0e0e0;height:var(--nav-h);display:flex;align-items:center;padding:0 32px}
+.nav-logo{height:36px;margin-right:40px;flex-shrink:0;text-decoration:none}
+.nav-links{display:flex;align-items:center;height:100%;flex:1}
+.nav-item{position:relative;height:100%;display:flex;align-items:center}
+.nav-item>a{display:flex;align-items:center;height:100%;padding:0 18px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--black);white-space:nowrap;border-bottom:3px solid transparent;transition:color .2s,border-color .2s}
+.nav-item>a:hover,.nav-item:hover>a,.nav-item.active>a{color:var(--red);border-bottom-color:var(--red)}
+.nav-outlet>a{color:var(--red)}
+.megamenu{display:none;position:absolute;top:var(--nav-h);left:-20px;background:var(--white);border:1px solid #e0e0e0;border-top:3px solid var(--red);padding:32px 32px 24px;min-width:640px;box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:999}
+.nav-item:hover .megamenu{display:flex;gap:40px}
+.mega-col h4{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gray-mid);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e8e8e8}
+.mega-col ul{list-style:none}
+.mega-col ul li{margin:6px 0}
+.mega-col ul li a{font-size:13px;color:var(--gray-dark);text-decoration:none;transition:color .2s}
+.mega-col ul li a:hover{color:var(--red)}
+.mega-img{width:180px;flex-shrink:0;overflow:hidden;border-radius:4px;min-height:220px;display:flex;align-items:flex-end;padding:20px}
+.nav-right{display:flex;align-items:center;gap:20px;margin-left:auto}
+.nav-search{cursor:pointer;color:var(--gray-dark);display:flex;align-items:center}
+.nav-search svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.nav-cart{position:relative;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--black)}
+.cart-badge{position:absolute;top:-6px;right:-8px;width:16px;height:16px;background:var(--red);border-radius:50%;font-size:9px;color:#000;display:flex;align-items:center;justify-content:center;font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--red);color:#000}
+.btn-primary:hover{background:var(--red-dark)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.btn-dark{background:var(--black);color:#fff}
+.btn-dark:hover{background:var(--gray-dark)}
+.hero{position:relative;height:calc(100vh - var(--nav-h) - 32px);min-height:540px;background:#0a0a0a;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,.15) 55%,transparent 100%)}
+.hero-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(80px,15vw,220px);font-weight:900;letter-spacing:-.02em;color:rgba(255,255,255,.04);white-space:nowrap;user-select:none;pointer-events:none}
+.hero-content{position:relative;z-index:2;padding:48px 64px;max-width:680px}
+.hero-badge{display:inline-block;background:var(--red);color:#000;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;margin-bottom:20px}
+.hero-title{font-size:clamp(36px,6vw,80px);font-weight:900;line-height:.95;letter-spacing:-.02em;color:#fff;text-transform:uppercase;margin-bottom:20px}
+.hero-title span{color:var(--red)}
+.hero-desc{font-size:15px;color:rgba(255,255,255,.7);line-height:1.6;max-width:420px;margin-bottom:32px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+.hero-scroll{position:absolute;bottom:32px;right:64px;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.35);font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+.hero-scroll-line{width:1px;height:48px;background:rgba(255,255,255,.2);position:relative;overflow:hidden}
+.hero-scroll-line::after{content:'';position:absolute;top:0;left:0;width:100%;height:50%;background:rgba(255,255,255,.5);animation:scrollLine 1.8s ease-in-out infinite}
+@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}
+.marquee-band{background:var(--red);padding:10px 0;overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-flex;animation:marquee 22s linear infinite}
+.marquee-track span{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000;padding:0 28px}
+.marquee-track .sep{opacity:.4}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.section-label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.section-title{font-size:clamp(26px,4vw,52px);font-weight:900;letter-spacing:-.02em;text-transform:uppercase;line-height:1;margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--gray-mid);line-height:1.6;max-width:520px;margin-bottom:36px}
+.page-hero{background:var(--black);padding:64px 64px 56px;position:relative;overflow:hidden}
+.page-hero-bg-text{position:absolute;top:50%;right:-20px;transform:translateY(-50%);font-size:clamp(100px,18vw,280px);font-weight:900;color:rgba(255,255,255,.03);text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.page-hero .section-label{color:var(--red)}
+.page-hero h1{font-size:clamp(40px,7vw,96px);font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-.02em;line-height:.92;margin-bottom:20px}
+.page-hero h1 span{color:var(--red)}
+.page-hero p{font-size:15px;color:rgba(255,255,255,.6);max-width:480px;line-height:1.7;margin-bottom:32px}
+.filter-bar{background:var(--gray);padding:16px 64px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #e0e0e0}
+.filter-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border:1px solid #d0d0d0;background:var(--white);cursor:pointer;transition:all .2s;text-decoration:none;color:var(--black)}
+.filter-tag:hover,.filter-tag.active{background:var(--black);color:#fff;border-color:var(--black)}
+.filter-tag.red{background:var(--red);color:#000;border-color:var(--red)}
+.products-section{background:var(--gray);padding:56px 64px}
+.products-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px}
+.btn-link{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--black);text-decoration:none;border-bottom:2px solid var(--black);padding-bottom:4px;transition:color .2s,border-color .2s}
+.btn-link:hover{color:var(--red);border-color:var(--red)}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.products-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product-card{background:var(--white);cursor:pointer;transition:box-shadow .3s;text-decoration:none;color:inherit;display:block}
+.product-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.product-card-img{position:relative;aspect-ratio:1;overflow:hidden;background:#f0f0f0;display:flex;align-items:center;justify-content:center}
+.product-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.product-card:hover .product-card-img img{transform:scale(1.06)}
+.prod-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.prod-ph-big{font-size:clamp(32px,5vw,56px);font-weight:900;color:rgba(0,0,0,.07);text-transform:uppercase;letter-spacing:-.02em}
+.prod-ph-sub{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.2)}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--red);color:#000;font-size:9px;font-weight:700;letter-spacing:.12em;padding:4px 8px;text-transform:uppercase;z-index:1}
+.product-badge.new{background:var(--black)}
+.product-badge.sale{background:#f59e0b}
+.product-card-info{padding:16px}
+.product-name{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.product-ref{font-size:11px;color:var(--gray-mid);margin-bottom:10px}
+.product-price{font-size:16px;font-weight:700}
+.product-colors{display:flex;gap:5px;margin-top:8px}
+.color-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.15);cursor:pointer;transition:transform .2s}
+.color-dot:hover{transform:scale(1.3)}
+.stripe-section{background:var(--black);color:var(--white);padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.stripe-text .section-label{color:var(--red)}
+.stripe-text .section-title{color:var(--white)}
+.stripe-text .section-sub{color:rgba(255,255,255,.6)}
+.stripe-stats{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.stat-item{border-left:3px solid var(--red);padding-left:20px}
+.stat-number{font-size:clamp(30px,4vw,52px);font-weight:900;line-height:1;color:var(--white)}
+.stat-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:4px}
+.cat-split{display:grid;grid-template-columns:1fr 1fr}
+.cat-split-block{position:relative;min-height:400px;overflow:hidden;display:flex;align-items:flex-end;padding:40px;text-decoration:none;cursor:pointer}
+.cat-split-block:hover .cat-split-bg{transform:scale(1.04)}
+.cat-split-bg{position:absolute;inset:0;transition:transform .5s ease}
+.cat-split-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 60%)}
+.cat-split-content{position:relative;z-index:2}
+.cat-split-tag{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.cat-split-title{font-size:clamp(20px,3vw,36px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:12px}
+.cat-split-cta{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .2s}
+.cat-split-block:hover .cat-split-cta{color:#fff}
+.newsletter{background:var(--red);padding:64px;text-align:center;color:#000}
+.newsletter h2{font-size:clamp(22px,4vw,44px);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:12px}
+.newsletter p{font-size:15px;opacity:.8;margin-bottom:28px}
+.nl-form{display:flex;max-width:480px;margin:0 auto}
+.nl-input{flex:1;padding:16px 20px;font-size:14px;border:none;outline:none;color:var(--black)}
+.nl-btn{padding:16px 24px;background:var(--black);color:#fff;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s;white-space:nowrap}
+.nl-btn:hover{background:var(--gray-dark)}
+footer{background:#0a0a0a;color:rgba(255,255,255,.55);padding:64px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-logo{font-size:22px;font-weight:900;color:#fff;letter-spacing:.05em;text-transform:uppercase;margin-bottom:16px}
+.footer-logo span{color:var(--red)}
+footer .footer-brand p{font-size:13px;line-height:1.7;max-width:260px}
+.socials{display:flex;gap:12px;margin-top:24px}
+.social-btn{width:36px;height:36px;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:rgba(255,255,255,.5);text-decoration:none;transition:all .2s}
+.social-btn:hover{border-color:#fff;color:#fff}
+.footer-col h4{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:20px}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin:8px 0}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{background:#050505;padding:20px 64px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,.22);letter-spacing:.05em}
+.footer-bottom a{color:rgba(255,255,255,.32);text-decoration:none}
+.footer-bottom a:hover{color:rgba(255,255,255,.7)}
+@media(max-width:960px){
+  .products-grid,.products-grid-3{grid-template-columns:repeat(2,1fr)}
+  .stripe-section{grid-template-columns:1fr;padding:40px 24px}
+  .cat-split{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr 1fr;gap:28px;padding:40px 24px}
+  .footer-bottom{padding:16px 24px;flex-direction:column;gap:6px;text-align:center}
+  .products-section,.filter-bar,.page-hero{padding-left:24px;padding-right:24px}
+  .hero-content{padding:32px 24px}
+  .hero-scroll{display:none}
+  .nav-links{display:none}
+  nav{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-links">
+    <a href="#">Nos magasins revendeurs</a>
+    <a href="#">Accès Pro</a>
+    <a href="#">The Kenny Code</a>
+  </div>
+  <div class="topbar-lang">
+    <a href="#" class="active">FR</a>
+    <span style="opacity:.3">|</span>
+    <a href="#">EN</a>
+    <span style="opacity:.3;margin:0 4px">·</span>
+    <span>France</span>
+  </div>
+</div>
+<nav>
+  <a href="index.html" class="nav-logo"><svg viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:30px;width:auto">
+  <text x="2" y="28" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="26" fill="#0a0a0a" letter-spacing="1">KENNY</text>
+  <rect x="2" y="31" width="106" height="3" fill="#ccff00"/>
+  <text x="112" y="28" font-family="'Helvetica Neue',Arial,sans-serif" font-weight="400" font-size="9" fill="#888" letter-spacing="1">RACING</text>
+</svg></a>
+  <div class="nav-links">
+    <div class="nav-item"><a href="velo.html">Vélo</a><div class="megamenu">
+              <div class="mega-col"><h4>Adulte</h4><ul>
+                <li><a href="velo.html#casques">Casques</a></li><li><a href="velo.html#masques">Masques</a></li>
+                <li><a href="velo.html#kits">Kits</a></li><li><a href="velo.html#maillots">Maillots</a></li>
+                <li><a href="velo.html#pantalons">Pantalons / Shorts</a></li><li><a href="velo.html#vestes">Vestes</a></li>
+                <li><a href="velo.html#gants">Gants</a></li><li><a href="velo.html#protections">Protections</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Enfant</h4><ul>
+                <li><a href="velo.html#casques-kid">Casques</a></li><li><a href="velo.html#masques-kid">Masques</a></li>
+                <li><a href="velo.html#kits-kid">Kits</a></li><li><a href="velo.html#maillots-kid">Maillots</a></li>
+                <li><a href="velo.html#pantalons-kid">Pantalons / Shorts</a></li>
+                <li><a href="velo.html#gants-kid">Gants</a></li><li><a href="velo.html#protections-kid">Protections</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Sportswear</h4><ul>
+                <li><a href="sportwear.html">Casquettes &amp; Bonnets</a></li><li><a href="sportwear.html">Sweats</a></li>
+                <li><a href="sportwear.html">Vestes</a></li><li><a href="sportwear.html">Tee-shirts</a></li>
+                <li><a href="sportwear.html">Pantalons / Shorts</a></li><li><a href="sportwear.html">Chaussettes</a></li>
+                <li><a href="sportwear.html">Kids</a></li><li><a href="sportwear.html">Bagagerie</a></li>
+              </ul></div>
+              <div class="mega-img" style="background:linear-gradient(145deg,#050f1a,#1a3550)">
+                <span style="font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1">Explorer<br>la gamme<br><span style="color:#ccff00">vélo</span></span>
+              </div></div></div>
+<div class="nav-item"><a href="moto.html">Moto</a><div class="megamenu">
+              <div class="mega-col"><h4>Adulte</h4><ul>
+                <li><a href="moto.html#casques">Casques</a></li><li><a href="moto.html#masques">Masques</a></li>
+                <li><a href="moto.html#kits">Kits</a></li><li><a href="moto.html#maillots">Maillots</a></li>
+                <li><a href="moto.html#pantalons">Pantalons</a></li><li><a href="moto.html#vestes">Vestes</a></li>
+                <li><a href="moto.html#gants">Gants</a></li><li><a href="moto.html#bottes">Bottes</a></li>
+                <li><a href="moto.html#protections">Protections</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Enfant</h4><ul>
+                <li><a href="moto.html#casques-kid">Casques</a></li><li><a href="moto.html#masques-kid">Masques</a></li>
+                <li><a href="moto.html#kits-kid">Kits</a></li><li><a href="moto.html#maillots-kid">Maillots</a></li>
+                <li><a href="moto.html#pantalons-kid">Pantalons</a></li><li><a href="moto.html#vestes-kid">Vestes</a></li>
+                <li><a href="moto.html#gants-kid">Gants</a></li><li><a href="moto.html#bottes-kid">Bottes</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Lifestyle</h4><ul>
+                <li><a href="sportwear.html">Casquettes &amp; Bonnets</a></li><li><a href="sportwear.html">Sweats</a></li>
+                <li><a href="sportwear.html">Vestes</a></li><li><a href="sportwear.html">Tee-shirts</a></li>
+                <li><a href="sportwear.html">Pantalons / Shorts</a></li><li><a href="sportwear.html">Bagagerie</a></li>
+                <li><a href="sportwear.html">Accessoires</a></li>
+              </ul></div>
+              <div class="mega-img" style="background:linear-gradient(145deg,#1a0505,#3d1010)">
+                <span style="font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1">Explorer<br>la gamme<br><span style="color:#ccff00">moto</span></span>
+              </div></div></div>
+<div class="nav-item"><a href="pullin.html">Pull-In Race</a><div class="megamenu">
+              <div class="mega-col"><h4>Adulte</h4><ul>
+                <li><a href="pullin.html#kits">Kits</a></li><li><a href="pullin.html#casques">Casques</a></li>
+                <li><a href="pullin.html#maillots">Maillots</a></li><li><a href="pullin.html#pantalons">Pantalons</a></li>
+                <li><a href="pullin.html#gants">Gants</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Enfant</h4><ul>
+                <li><a href="pullin.html#kits-kid">Kits</a></li><li><a href="pullin.html#casques-kid">Casques</a></li>
+                <li><a href="pullin.html#maillots-kid">Maillots</a></li><li><a href="pullin.html#pantalons-kid">Pantalons</a></li>
+                <li><a href="pullin.html#gants-kid">Gants</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Lifestyle</h4><ul>
+                <li><a href="pullin.html#casquettes">Casquettes &amp; Bonnets</a></li><li><a href="pullin.html#sweats">Sweats</a></li>
+                <li><a href="pullin.html#tshirts">Tee-shirts</a></li><li><a href="pullin.html#chaussettes">Chaussettes</a></li>
+                <li><a href="pullin.html#calecons">Caleçons</a></li><li><a href="pullin.html#accessoires">Accessoires</a></li>
+              </ul></div>
+              <div class="mega-img" style="background:linear-gradient(145deg,#0a0a0a,#1f1f1f)">
+                <span style="font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1">Explorer<br>Pull-In<br><span style="color:#ccff00">Race</span></span>
+              </div></div></div>
+<div class="nav-item"><a href="sportwear.html">Sportswear</a><div class="megamenu">
+              <div class="mega-col"><h4>Kenny Lifestyle</h4><ul>
+                <li><a href="sportwear.html#casquettes">Casquettes &amp; Bonnets</a></li>
+                <li><a href="sportwear.html#sweats">Sweats</a></li><li><a href="sportwear.html#vestes">Vestes</a></li>
+                <li><a href="sportwear.html#tshirts">Tee-shirts / Polos</a></li>
+                <li><a href="sportwear.html#pantalons">Pantalons / Shorts</a></li>
+                <li><a href="sportwear.html#chaussettes">Chaussettes</a></li>
+                <li><a href="sportwear.html#kids">Kids</a></li><li><a href="sportwear.html#bagagerie">Bagagerie</a></li>
+                <li><a href="sportwear.html#accessoires">Accessoires</a></li>
+              </ul></div>
+              <div class="mega-col"><h4>Pull-In Lifestyle</h4><ul>
+                <li><a href="pullin.html#casquettes">Casquettes &amp; Bonnets</a></li>
+                <li><a href="pullin.html#sweats">Sweats</a></li><li><a href="pullin.html#vestes">Vestes</a></li>
+                <li><a href="pullin.html#tshirts">Tee-shirts</a></li>
+                <li><a href="pullin.html#chaussettes">Chaussettes</a></li>
+                <li><a href="pullin.html#calecons">Caleçons</a></li>
+              </ul></div>
+              <div class="mega-img" style="background:linear-gradient(145deg,#0f0a05,#2a1f0a)">
+                <span style="font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1">Style<br>&amp; Lifestyle<br><span style="color:#ccff00">Kenny</span></span>
+              </div></div></div>
+
+    <div class="nav-item nav-outlet"><a href="#">Outlet</a></div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></div>
+    <a class="nav-cart" href="#">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-badge">0</span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero" style="padding:0">
+  <div class="hero-bg" style="background:url('home imaga.jpg') center/cover no-repeat"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-bg-text">KENNY</div>
+  <div class="hero-content">
+    <div class="hero-badge">SS26 — Nouvelle Collection</div>
+    <h1 class="hero-title">Born<br>to <span>Ride.</span></h1>
+    <p class="hero-desc">Forgé sur le terrain. Inspiré par les athlètes. Conçu pour performer. La collection 2026 repousse les limites du ride — vitesse, liberté, maîtrise.</p>
+    <div class="hero-cta">
+      <a href="moto.html" class="btn btn-primary">Explorer Moto</a>
+      <a href="velo.html" class="btn btn-outline">Explorer Vélo</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<div class="marquee-band"><div class="marquee-track"><span>Moto</span><span class="sep">—</span><span>Vélo</span><span class="sep">—</span><span>Pull-In Race</span><span class="sep">—</span><span>Lifestyle</span><span class="sep">—</span><span>Custom by You</span><span class="sep">—</span><span>SS26</span><span class="sep">—</span><span>Performance</span><span class="sep">—</span><span>Free Shipping +80€</span><span class="sep">—</span><span>Moto</span><span class="sep">—</span><span>Vélo</span><span class="sep">—</span><span>Pull-In Race</span><span class="sep">—</span><span>Lifestyle</span><span class="sep">—</span><span>Custom by You</span><span class="sep">—</span><span>SS26</span><span class="sep">—</span><span>Performance</span><span class="sep">—</span><span>Free Shipping +80€</span><span class="sep">—</span></div></div>
+
+<section style="padding:80px 0 0">
+  <div style="padding:0 64px 36px">
+    <div class="section-label">Nos univers</div>
+    <h2 class="section-title">Choisissez votre ride</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px">
+    <a href="moto.html" style="position:relative;aspect-ratio:3/4;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+      <div style="width:100%;height:100%;background:url('image moto.jpg') center/cover no-repeat;transition:transform .5s ease"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#ccff00;margin-bottom:8px">Motocross · Enduro · Trial</div>
+        <div style="font-size:clamp(18px,2.5vw,28px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:12px">Moto</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)">Explorer →</div>
+      </div>
+    </a>
+    <a href="velo.html" style="position:relative;aspect-ratio:3/4;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+      <div style="width:100%;height:100%;background:url('image velo.jpeg') center/cover no-repeat"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#ccff00;margin-bottom:8px">VTT · Gravel · BMX</div>
+        <div style="font-size:clamp(18px,2.5vw,28px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:12px">Vélo</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)">Explorer →</div>
+      </div>
+    </a>
+    <a href="pullin.html" style="position:relative;aspect-ratio:3/4;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+      <div style="width:100%;height:100%;background:url('image pull-in.jpg') center/cover no-repeat"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#ccff00;margin-bottom:8px">Street · Race · Culture</div>
+        <div style="font-size:clamp(18px,2.5vw,28px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:12px">Pull-In Race</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)">Découvrir →</div>
+      </div>
+    </a>
+    <a href="sportwear.html" style="position:relative;aspect-ratio:3/4;overflow:hidden;display:block;text-decoration:none;cursor:pointer">
+      <div style="width:100%;height:100%;background:url('image lifestyle.jpg') center/cover no-repeat"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%)"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:28px 24px;z-index:2">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#ccff00;margin-bottom:8px">Kenny · Pull-In</div>
+        <div style="font-size:clamp(18px,2.5vw,28px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:12px">Lifestyle</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)">Explorer →</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="products-section">
+  <div class="products-header">
+    <div><div class="section-label">SS26</div><h2 class="section-title">Produits phares</h2></div>
+    <a href="moto.html" class="btn-link">Voir tout →</a>
+  </div>
+  <div class="products-grid">
+    <a href="#" class="product-card">
+  <div class="product-card-img">
+    <img src="kit titanium blue.jpg" alt="Kit Titanium Blue" style="width:100%;height:100%;object-fit:cover;display:block">
+    <span class="product-badge new">Nouveau</span>
+  </div>
+  <div class="product-card-info">
+    <div class="product-name">Kit Titanium Blue</div>
+    <div class="product-ref">Moto Adulte</div>
+    <div class="product-price">229,00 €</div>
+    <div class="product-colors"><div class="color-dot" style="background:#1e40af" title=""></div><div class="color-dot" style="background:#1e3a5f" title=""></div><div class="color-dot" style="background:#ccff00" title=""></div></div>
+  </div>
+</a>
+    <a href="#" class="product-card">
+  <div class="product-card-img">
+    <img src="masque performance evo 2.jpg" alt="Masque Performance EVO 2" style="width:100%;height:100%;object-fit:cover;display:block">
+    <span class="product-badge ">SS26</span>
+  </div>
+  <div class="product-card-info">
+    <div class="product-name">Masque Performance EVO 2</div>
+    <div class="product-ref">SoCal</div>
+    <div class="product-price">70,83 €</div>
+    <div class="product-colors"><div class="color-dot" style="background:#f59e0b" title=""></div><div class="color-dot" style="background:#0a0a0a" title=""></div><div class="color-dot" style="background:#ccff00" title=""></div></div>
+  </div>
+</a>
+    <a href="#" class="product-card">
+  <div class="product-card-img">
+    <img src="botte track t2 blue.jpg" alt="Bottes Track T2" style="width:100%;height:100%;object-fit:cover;display:block">
+    <span class="product-badge new">Nouveau</span>
+  </div>
+  <div class="product-card-info">
+    <div class="product-name">Bottes Track T2 Red</div>
+    <div class="product-ref">Moto Adulte</div>
+    <div class="product-price">133,29 €</div>
+    <div class="product-colors"><div class="color-dot" style="background:#ccff00" title=""></div><div class="color-dot" style="background:#0a0a0a" title=""></div><div class="color-dot" style="background:#1e40af" title=""></div></div>
+  </div>
+</a>
+    <a href="#" class="product-card">
+  <div class="product-card-img">
+    <img src="gants titanium blue.jpg" alt="Gants Titanium Blue" style="width:100%;height:100%;object-fit:cover;display:block">
+  </div>
+  <div class="product-card-info">
+    <div class="product-name">Gants Titanium Blue</div>
+    <div class="product-ref">Moto Adulte</div>
+    <div class="product-price">48,33 €</div>
+    <div class="product-colors"><div class="color-dot" style="background: #1e3a8a" title=""></div><div class="color-dot" style="background:#ccff00" title=""></div><div class="color-dot" style="background:#0a0a0a" title=""></div></div>
+  </div>
+</a>
+  </div>
+</div>
+
+<div class="stripe-section">
+  <div class="stripe-text">
+    <div class="section-label">Depuis 1989</div>
+    <h2 class="section-title" style="color:#fff">La performance dans l'ADN</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.6)">Kenny Racing est né du terrain, des circuits et des sentiers. Chaque produit est conçu avec les athlètes, testé dans des conditions extrêmes, et pensé pour durer.</p>
+    <a href="#" class="btn btn-primary" style="margin-top:8px">The Kenny Code</a>
+  </div>
+  <div class="stripe-stats">
+    <div class="stat-item"><div class="stat-number">35+</div><div class="stat-label">Ans d'expérience</div></div>
+    <div class="stat-item"><div class="stat-number">120+</div><div class="stat-label">Pays distributeurs</div></div>
+    <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Références produits</div></div>
+    <div class="stat-item"><div class="stat-number">100%</div><div class="stat-label">Tested in action</div></div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr">
+  <div style="position:relative;min-height:400px;overflow:hidden;background:#0a0a0a">
+    <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85" src="kenny cutom.mp4"></video>
+  </div>
+  <div style="background:var(--gray);padding:64px;display:flex;flex-direction:column;justify-content:center">
+    <div class="section-label">Personnalisation</div>
+    <h2 class="section-title">Custom<br>by You</h2>
+    <p style="font-size:15px;color:var(--gray-mid);line-height:1.8;margin:16px 0 32px">Crée ton propre kit aux couleurs de ton club ou de ton style. Un outil de personnalisation unique pour un équipement 100% à ton image.</p>
+    <a href="#" class="btn btn-primary" style="align-self:flex-start">Lancer mon design</a>
+  </div>
+</div>
+
+
+<div class="newsletter">
+  <h2>Rejoins la famille Kenny</h2>
+  <p>Accès prioritaire aux drops, offres exclusives et actus des riders Kenny.</p>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="Ton adresse e-mail...">
+    <button class="nl-btn">S'inscrire →</button>
+  </div>
+</div>
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">KENNY<span>.</span></div>
+    <p>Équipements moto, vélo & lifestyle conçus pour les riders qui repoussent leurs limites depuis 1989.</p>
+    <div class="socials">
+      <a href="#" class="social-btn">IG</a>
+      <a href="#" class="social-btn">FB</a>
+      <a href="#" class="social-btn">YT</a>
+      <a href="#" class="social-btn">TK</a>
+    </div>
+  </div>
+  <div class="footer-col"><h4>Produits</h4><ul>
+    <li><a href="moto.html">Moto Adulte</a></li>
+    <li><a href="moto.html">Moto Enfant</a></li>
+    <li><a href="velo.html">Vélo Adulte</a></li>
+    <li><a href="velo.html">Vélo Enfant</a></li>
+    <li><a href="pullin.html">Pull-In Race</a></li>
+    <li><a href="sportwear.html">Sportswear</a></li>
+    <li><a href="#">Outlet</a></li>
+  </ul></div>
+  <div class="footer-col"><h4>Kenny</h4><ul>
+    <li><a href="#">The Kenny Code</a></li>
+    <li><a href="#">Custom by You</a></li>
+    <li><a href="#">Nos Riders</a></li>
+    <li><a href="#">Magasins Revendeurs</a></li>
+    <li><a href="#">Accès Pro</a></li>
+    <li><a href="#">À propos</a></li>
+  </ul></div>
+  <div class="footer-col"><h4>Aide</h4><ul>
+    <li><a href="#">Mon compte</a></li>
+    <li><a href="#">Livraison &amp; Retours</a></li>
+    <li><a href="#">Guide des tailles</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">CGV</a></li>
+  </ul></div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Kenny Racing. Tous droits réservés.</span>
+  <div style="display:flex;gap:20px">
+    <a href="#">Politique de confidentialité</a>
+    <a href="#">Mentions légales</a>
+    <a href="#">Cookies</a>
+  </div>
+</div>
+</body>
+</html>
